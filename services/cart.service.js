@@ -1,4 +1,4 @@
-import { products } from "../entities/products.entity.js";
+import { cart } from "../entities/cart.entity.js";
 
 // async function addingUsers(addingUser) {
 //   await Users.create(addingUser).go();
@@ -8,34 +8,34 @@ import { products } from "../entities/products.entity.js";
 //   return await Users.get({ username }).go();
 // }
 
-async function getAllProductsInCart() {
-  return await products.scan.go();
+async function getAllProductsFromCart() {
+  return await cart.scan.go();
 }
-async function updateProductByIdInCart(existingData, updateData) {
-  return await products
+
+async function addingProductInCart(addProduct) {
+  await cart.create(addProduct).go();
+}
+
+async function deleteProductFromCart(userId) {
+  await cart.delete({ userId }).go();
+}
+
+async function getProductByIdFromCart(userId) {
+  return await cart.get({ userId }).go();
+}
+async function updateProductByIdInCart(userId, updateData) {
+  return await cart
     .put({
-      ...existingData.data,
+      userId,
       ...updateData,
     })
     .go();
 }
 
-async function addingProductInCart(addProduct) {
-  await products.create(addProduct).go();
-}
-
-async function deleteProductByIdInCart(id) {
-  await products.delete({ productId: id }).go();
-}
-
-async function getProductByIdInCart(id) {
-  return await products.get({ productId: id }).go();
-}
-
 export {
-  getAllProductsInCart,
+  getAllProductsFromCart,
   addingProductInCart,
-  deleteProductByIdInCart,
+  deleteProductFromCart,
+  getProductByIdFromCart,
   updateProductByIdInCart,
-  getProductByIdInCart,
 };

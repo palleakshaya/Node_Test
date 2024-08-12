@@ -1,68 +1,76 @@
 import {
-  getAllProductsInCart,
-  addingMovie,
-  deleteMovieById,
-} from "../services/products.service.js";
+  getAllProductsFromCart,
+  addingProductInCart,
+  deleteProductFromCart,
+  getProductByIdFromCart,
+  updateProductByIdInCart,
+} from "../services/cart.service.js";
+import { v4 as uuidv4 } from "uuid";
 
-export async function getAllProductsC(request, response) {
+// export async function getAllProductsFromCartC(request, response) {
+//   try {
+//     const allProducts = await getAllProductsFromCart();
+//     console.log(allProducts.data);
+//     response.send(allProducts.data);
+//   } catch (error) {
+//     console.log(error);
+//     response.status(500).send("Failed to get Products");
+//   }
+// }
+export async function getAllProductsFromCartC(request, response) {
   try {
-    const allProducts = await getAllProducts();
-    console.log(allProducts);
-    response.send(allProducts);
+    const userId = request.params.id; // Extract userId from request parameters
+    const cart = await getProductByIdFromCart(userId);
+    //const cart = await getAllProductsFromCartC();
+    if (cart.data) {
+      response.send(cart.data);
+    } else {
+      response.status(404).send({ msg: "Cart not found" });
+    }
   } catch (error) {
     console.log(error);
-    response.status(500).send("Failed to get Products");
+    response.status(500).send("Failed to get Cart");
   }
 }
-export async function addingProductC(request, response) {
+
+export async function addingProductInCartC(request, response) {
   const data = request.body;
   console.log(data);
-  const addProduct = { ...data, productId: uuidv4() };
+  const addProduct = { ...data, productId: uuidv4(), userId: uuidv4() };
   try {
-    await addingProduct(addProduct);
+    await addingProductInCart(addProduct);
     console.log(addProduct);
     // movies.push({ id: v4(), ...data });
     response.send(addProduct);
   } catch (error) {
-    response.status(500).send("Failed to create the movie");
+    console.log(error);
+    response.status(500).send("Failed to add the product in the cart");
   }
 }
-export async function deleteProductByIdC(request, response) {
-  const { id } = request.params;
+export async function deleteProductFromCartC(request, response) {
+  // const { userId } = request.params;
+  const userId = request.params.id;
   // data = movies.find((movie) => movie.id == id);
   try {
-    const result = await getProductById();
+    const result = await getProductByIdFromCart(userId);
     if (result.data) {
       // movies = movies.filter((movie) => movie.id != id);
-      await deleteProductById(id);
-      response.send("Movie deleted successfully");
+      await deleteProductFromCart(userId);
+      response.send("product deleted successfully");
     } else {
       response.status(404).send("Product Not Found");
     }
   } catch (error) {
+    console.log(error);
     response.status(500).send("Failed to delete product");
   }
 }
-export async function updateProductByIdC(request, response) {
-  const { id } = request.params;
-  const updateData = request.body;
-  try {
-    const existingData = await getProductById(id);
-    if (existingData.data) {
-      const result = await updateProductById(existingData, updateData);
-      response.send(result);
-      console.log(id, existingData.data);
-    }
-  } catch (error) {
-    response.status(500).send("Failed to update the product");
-  }
-}
-export async function getProductByIdC(request, response) {
+export async function getProductByIdFromCartC(request, response) {
   const { id } = request.params;
   console.log(id);
   let res;
   try {
-    res = await getProductById(id);
+    res = await getProductByIdFromCart(id);
     if (res.data) {
       response.send(res.data);
     } else {
@@ -70,5 +78,20 @@ export async function getProductByIdC(request, response) {
     }
   } catch (error) {
     response.status(500).send("Failed to get Products");
+  }
+}
+export async function updateProductByIdInCartC(request, response) {
+  // const { id } = request.params;
+  const userId = request.params.id;
+  const updateData = request.body;
+  try {
+    const existingData = await getProductByIdFromCart(userId);
+    if (existingData.data) {
+      const result = await updateProductByIdInCart(userId, updateData);
+      response.send(result.data);
+      console.log(userId, existingData.data);
+    }
+  } catch (error) {
+    response.status(500).send("Failed to update the product");
   }
 }

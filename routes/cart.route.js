@@ -2,19 +2,17 @@ import express from "express";
 // import cors from "cors";
 import { products } from "../entities/products.entity.js";
 import {
-  getAllProductsInCartC,
+  getAllProductsFromCartC,
   addingProductInCartC,
-  deleteProductByIdICartC,
-  getProductByIdInCartC,
-} from "../controllers/products.controller.js";
-
-import { getMovieByIdC } from "./getMovieByIdC.js";
+  deleteProductFromCartC,
+  getProductByIdFromCartC,
+} from "../controllers/cart.controller.js";
 
 const router = express.Router();
 
-router.get("/", getAllProductsInCartC);
-router.get("/:id", getProductByIdInCartC);
+router.get("/", getAllProductsFromCartC);
+router.get("/:id", getProductByIdFromCartC);
 router.post("/", addingProductInCartC);
-router.delete("/:id", deleteProductByIdICartC);
-
+// router.delete("/:id", deleteProductByIdICartC);
+router.route("/:id").delete(deleteProductFromCartC);
 export default router;

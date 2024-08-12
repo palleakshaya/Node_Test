@@ -1,11 +1,11 @@
 import { Entity } from "electrodb"; //ORM(object relational mapping -> SDK is very hard to use so to make it easier, electrodb is used)
-import { client } from "../util/dbconnections.js";
+import { client } from "../util/db.connection.js";
 //client is the live connection to AWS
 
-const products = new Entity(
+const cart = new Entity(
   {
     model: {
-      entity: "products",
+      entity: "cart",
       version: "2",
       service: "productsService",
     },
@@ -37,7 +37,7 @@ const products = new Entity(
         pk: {
           // highlight-next-line
           field: "pk",
-          facets: ["productId"],
+          facets: ["userId"],
         },
         sk: {
           // highlight-next-line
@@ -48,7 +48,7 @@ const products = new Entity(
     },
     // add your DocumentClient and TableName as a second parameter
   },
-  { client, table: "products" }
+  { client, table: "cart" }
 );
 
-export { products };
+export { cart };
