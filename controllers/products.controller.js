@@ -28,6 +28,7 @@ export async function addingProductC(request, response) {
     // movies.push({ id: v4(), ...data });
     response.send(addProduct);
   } catch (error) {
+    console.log(error);
     response.status(500).send("Failed to add the product");
   }
 }
@@ -39,11 +40,12 @@ export async function deleteProductByIdC(request, response) {
     if (result.data) {
       // movies = movies.filter((movie) => movie.id != id);
       await deleteProductById(id);
-      response.send("Movie deleted successfully");
+      response.send("Product deleted successfully");
     } else {
       response.status(404).send("Product Not Found");
     }
   } catch (error) {
+    console.log(error);
     response.status(500).send("Failed to delete product");
   }
 }
@@ -54,7 +56,7 @@ export async function updateProductByIdC(request, response) {
     const existingData = await getProductById(id);
     if (existingData.data) {
       const result = await updateProductById(existingData, updateData);
-      response.send(result);
+      response.send(result.data);
       console.log(id, existingData.data);
     }
   } catch (error) {

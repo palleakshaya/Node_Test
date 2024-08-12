@@ -7,7 +7,7 @@ const products = new Entity(
     model: {
       entity: "products",
       version: "2",
-      service: "productsService",
+      service: "productService",
     },
     attributes: {
       productId: {
