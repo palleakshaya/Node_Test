@@ -38,8 +38,12 @@ export async function addingProductInCartC(request, response) {
   console.log(data);
   if (
     !data.userId ||
-    !data.products[0].productId ||
-    !data.products[0].quantity ||
+    // !data.products[0].productId ||
+    // !data.products[0].quantity ||
+    !data.products ||
+    !data.products.length ||
+    !data.products[0]?.productId ||
+    !data.products[0]?.quantity ||
     !data.price
   ) {
     return response.status(400).send({ msg: "Missing required fields" });
@@ -57,7 +61,7 @@ export async function addingProductInCartC(request, response) {
     totalPrice,
   };
   try {
-    await addingProductInCart(addProduct.data);
+    await addingProductInCart(addProduct);
     console.log(addProduct);
     // movies.push({ id: v4(), ...data });
     response.send(addProduct);
