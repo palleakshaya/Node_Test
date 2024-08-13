@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import productsRouter from "./routes/products.route.js";
 import cartRouter from "./routes/cart.route.js";
-// import orderRouter from "./routes/orders.route.js";
+import orderRouter from "./routes/orders.route.js";
 
 // const express = require("express");
 const app = express();
@@ -15,6 +15,6 @@ app.get("/", function (request, response) {
 
 app.use("/products", productsRouter);
 app.use("/cart", cartRouter);
-// app.use("/orders", orderRouter);
+app.use("/orders", orderRouter);
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
