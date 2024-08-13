@@ -9,9 +9,9 @@ export async function placeOrdersC(req, res) {
     const cartData = await getProductByIdFromCart(userId);
 
     if (
-      !cartData?.data ||
-      !cartData.data.products ||
-      cartData.data.products.length === 0
+      !cartData?.data
+      // !cartData.data.products ||
+      // cartData.data.products.length === 0
     ) {
       console.log(cartData);
       return res.status(400).send({ msg: "Cart is empty or invalid" });
