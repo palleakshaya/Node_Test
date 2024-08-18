@@ -19,8 +19,8 @@ import { v4 as uuidv4 } from "uuid";
 // }
 export async function getAllProductsFromCartC(request, response) {
   try {
-    const userId = request.params.id; // Extract userId from request parameters
-    const cart = await getProductByIdFromCart(userId);
+    // const userId = request.params.id; // Extract userId from request parameters
+    const cart = await getAllProductsFromCart();
     //const cart = await getAllProductsFromCartC();
     if (cart.data) {
       response.send(cart.data);
@@ -34,6 +34,7 @@ export async function getAllProductsFromCartC(request, response) {
 }
 
 export async function addingProductInCartC(request, response) {
+  // const id = request.params.userId;
   const data = request.body;
   console.log(data);
   if (
@@ -42,20 +43,20 @@ export async function addingProductInCartC(request, response) {
     // !data.products[0].quantity ||
     !data.products ||
     !data.products.length ||
-    !data.products[0]?.productId ||
-    !data.products[0]?.quantity ||
+    !data.products[0]?.bookId ||
+    !data.products[0]?.qty ||
     !data.price
   ) {
     return response.status(400).send({ msg: "Missing required fields" });
   }
   const userId = data.userId;
-  const totalPrice = data.products[0].quantity * data.price;
+  const totalPrice = data.products[0].qty * data.price;
   const addProduct = {
     userId,
     products: [
       {
-        productId: data.products[0].productId,
-        quantity: data.products[0].quantity,
+        bookId: data.products[0].bookId,
+        qty: data.products[0].qty,
       },
     ],
     totalPrice,

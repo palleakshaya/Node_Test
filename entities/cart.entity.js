@@ -6,14 +6,14 @@ const cart = new Entity(
   {
     model: {
       entity: "cart",
-      version: "3",
+      version: "4",
       service: "productsService",
     },
     attributes: {
       userId: {
         type: "string",
       },
-      totalPrice: {
+      price: {
         type: "number",
         // required: true,
       },
