@@ -91,7 +91,7 @@ export async function deleteProductFromCartC(request, response) {
 }
 export async function getProductByIdFromCartC(request, response) {
   const { id } = request.params;
-  console.log(id);
+  // console.log(id);
   let res;
   try {
     res = await getProductByIdFromCart(id);
