@@ -114,6 +114,8 @@ export async function updateProductByIdInCartC(request, response) {
       const result = await updateProductByIdInCart(userId, updateData);
       response.send(result.data);
       console.log(userId, existingData.data);
+    } else {
+      response.status(404).send("Product Not Found");
     }
   } catch (error) {
     response.status(500).send("Failed to update the product");
