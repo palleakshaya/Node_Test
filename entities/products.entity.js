@@ -6,30 +6,45 @@ const products = new Entity(
   {
     model: {
       entity: "products",
-      version: "2",
+      version: "3",
       service: "productService",
     },
     attributes: {
-      productId: {
+      bookId: {
         type: "string",
       },
-      name: {
+      title: {
         type: "string",
         // required: true,
       },
-      description: {
+      author: {
         type: "string",
       },
       price: {
         type: "number",
         // required: true,
       },
-      category: {
+      description: {
         type: "string",
       },
-      stockQuantity: {
+      rating: {
+        type: "number",
+        // required: true,
+      },
+      category: {
         type: "string",
         // required: true,
+      },
+      imageURL: {
+        type: "string",
+        // required: true,
+      },
+      stock: {
+        type: "number",
+        // required: true,
+      },
+      qty: {
+        type: "number",
       },
     },
     indexes: {
@@ -37,7 +52,7 @@ const products = new Entity(
         pk: {
           // highlight-next-line
           field: "pk",
-          facets: ["productId"],
+          facets: ["bookId"],
         },
         sk: {
           // highlight-next-line

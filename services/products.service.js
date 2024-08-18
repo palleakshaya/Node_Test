@@ -25,11 +25,11 @@ async function addingProduct(addProduct) {
 }
 
 async function deleteProductById(id) {
-  await products.delete({ productId: id }).go();
+  await products.delete({ bookId: id }).go();
 }
 
 async function getProductById(id) {
-  return await products.get({ productId: id }).go();
+  return await products.get({ bookId: id }).go();
 }
 
 export {

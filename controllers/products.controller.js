@@ -60,6 +60,7 @@ export async function updateProductByIdC(request, response) {
       console.log(id, existingData.data);
     }
   } catch (error) {
+    console.log(error);
     response.status(500).send("Failed to update the product");
   }
 }

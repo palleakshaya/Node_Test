@@ -6,7 +6,7 @@ const cart = new Entity(
   {
     model: {
       entity: "cart",
-      version: "2",
+      version: "3",
       service: "productsService",
     },
     attributes: {
@@ -22,10 +22,10 @@ const cart = new Entity(
         items: {
           type: "map",
           properties: {
-            productId: {
-              type: "number",
+            bookId: {
+              type: "string",
             },
-            quantity: {
+            qty: {
               type: "number",
             },
           },
