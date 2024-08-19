@@ -39,12 +39,12 @@ export async function addingProductInCartC(request, response) {
   console.log(data);
   if (
     !data.userId ||
-    // !data.products[0].productId ||
-    // !data.products[0].quantity ||
     !data.products ||
     !data.products.length ||
-    !data.products[0]?.bookId ||
-    !data.products[0]?.qty ||
+    // !data.products[0].productId ||
+    // !data.products[0].quantity ||
+    !data.products[0].bookId || // Check for bookId in the first product
+    !data.products[0].qty || // Check for quantity in the first product
     !data.price
   ) {
     return response.status(400).send({ msg: "Missing required fields" });
@@ -62,10 +62,10 @@ export async function addingProductInCartC(request, response) {
     totalPrice,
   };
   try {
-    await addingProductInCart(addProduct);
-    console.log(addProduct);
+    const newCart = await addingProductInCart(addProduct);
+    // console.log(addProduct);
     // movies.push({ id: v4(), ...data });
-    response.send(addProduct);
+    response.send(newCart.data);
   } catch (error) {
     console.log(error);
     response.status(500).send("Failed to add the product in the cart");

@@ -4,28 +4,28 @@ import { getProductByIdFromCart } from "../services/cart.service.js";
 
 export async function placeOrdersC(req, res) {
   const data = req.body;
-  const userId = data.userId;
+  // const userId = data.userId;
+  // try {
+  //   const cartData = await getProductByIdFromCart(userId);
+
+  //   if (
+  //     !cartData?.data
+  //     // !cartData.data.products ||
+  //     // cartData.data.products.length === 0
+  //   ) {
+  //     console.log(cartData);
+  //     return res.status(400).send({ msg: "Cart is empty or invalid" });
+  //   }
+
+  const orderData = {
+    orderId: uuidv4(),
+    userId: uuidv4(),
+    products: data.products,
+    totalPrice: data.totalPrice,
+    orderDate: new Date().toISOString(),
+    status: "Success",
+  };
   try {
-    const cartData = await getProductByIdFromCart(userId);
-
-    if (
-      !cartData?.data
-      // !cartData.data.products ||
-      // cartData.data.products.length === 0
-    ) {
-      console.log(cartData);
-      return res.status(400).send({ msg: "Cart is empty or invalid" });
-    }
-
-    const orderData = {
-      orderId: uuidv4(),
-      userId,
-      products: cartData.data.products,
-      totalPrice: cartData.data.totalPrice,
-      orderDate: new Date().toISOString(),
-      status: "Pending",
-    };
-
     const newOrder = await createOrder(orderData);
     res
       .status(201)
