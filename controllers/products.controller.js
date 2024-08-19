@@ -32,21 +32,30 @@ export async function addingProductC(request, response) {
     response.status(500).send("Failed to add the product");
   }
 }
+// export async function deleteProductByIdC(request, response) {
+//   const { id } = request.params;
+//   // data = movies.find((movie) => movie.id == id);
+//   try {
+//     const result = await getProductById();
+//     if (result.data) {
+//       // movies = movies.filter((movie) => movie.id != id);
+//       await deleteProductById(id);
+//       response.send("Product deleted successfully");
+//     } else {
+//       response.status(404).send("Product Not Found");
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     response.status(500).send("Failed to delete product");
+//   }
+// }
 export async function deleteProductByIdC(request, response) {
   const { id } = request.params;
-  // data = movies.find((movie) => movie.id == id);
-  try {
-    const result = await getProductById();
-    if (result.data) {
-      // movies = movies.filter((movie) => movie.id != id);
-      await deleteProductById(id);
-      response.send("Product deleted successfully");
-    } else {
-      response.status(404).send("Product Not Found");
-    }
-  } catch (error) {
-    console.log(error);
-    response.status(500).send("Failed to delete product");
+  const product = await deleteProductById(id);
+  if (product) {
+    response.send({ msg: "Product deleted 🎉", deletedProduct: product.data });
+  } else {
+    response.status(404).send("No such Product 🥲");
   }
 }
 export async function updateProductByIdC(request, response) {

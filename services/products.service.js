@@ -25,7 +25,9 @@ async function addingProduct(addProduct) {
 }
 
 async function deleteProductById(id) {
-  await products.delete({ bookId: id }).go();
+  // await products.delete({ bookId: id }).go();
+  const result = await products.delete({ bookId: id }).go();
+  return result;
 }
 
 async function getProductById(id) {
