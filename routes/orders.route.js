@@ -4,13 +4,15 @@ import express from "express";
 import {
   getOrdersByIdC,
   placeOrdersC,
+  getAllOrdersC,
 } from "../controllers/orders.controller.js";
 import { auth } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/:id", auth, getOrdersByIdC);
-router.post("/", auth, placeOrdersC);
+router.get("/:id", getOrdersByIdC);
+router.get("/", getAllOrdersC);
+router.post("/", placeOrdersC);
 
 // router.get("/:id", getProductByIdFromCartC);
 

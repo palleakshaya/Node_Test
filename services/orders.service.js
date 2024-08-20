@@ -8,4 +8,8 @@ async function getOrdersById(userId) {
   return await orders.get({ userId }).go();
 }
 
-export { createOrder, getOrdersById };
+async function getAllOrders() {
+  return await orders.scan.go();
+}
+
+export { createOrder, getOrdersById, getAllOrders };

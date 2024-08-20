@@ -10,6 +10,7 @@ const auth = (request, response, next) => {
   } catch (err) {
     response.status(401).send({ msg: err.message });
   }
-  //   console.log(token);
+
+  console.log(token);
 };
 export { auth };

@@ -20,7 +20,7 @@ const orders = new Entity(
         items: {
           type: "map",
           properties: {
-            productId: {
+            bookId: {
               type: "string",
             },
             quantity: {

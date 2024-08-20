@@ -21,6 +21,7 @@ export async function getAllUsersC(request, response) {
   try {
     const allUsers = await getAllUsers();
     console.log(allUsers);
+    response.setHeader("Content-Type", "application/json");
     response.send(allUsers);
   } catch (error) {
     console.log(error);
@@ -51,5 +52,35 @@ export async function addingUsersC(request, response) {
   } catch (error) {
     console.log(error);
     response.status(500).send({ msg: "Failed to signup the user" });
+  }
+}
+
+export async function loginUsersC(request, response) {
+  const data = request.body;
+  console.log(data);
+  const userFromDB = await getUsersByUsername(data.username);
+  if (!userFromDB.data) {
+    response.status(400).send({ msg: "Invalid Credentials" });
+    return;
+  } else {
+    const storedDBPassword = userFromDB.data.password;
+    const providedPassword = data.password;
+    console.log(providedPassword, storedDBPassword);
+
+    const isPasswordCheck = await bcrypt.compare(
+      providedPassword,
+      storedDBPassword
+    );
+    console.log(isPasswordCheck);
+
+    if (isPasswordCheck) {
+      const token = jwt.sign(
+        { id: userFromDB.data.username },
+        process.env.SECRET_KEY
+      );
+      response.send({ msg: "Login Successful", token });
+    } else {
+      response.send({ msg: "Invalid Credentials" });
+    }
   }
 }

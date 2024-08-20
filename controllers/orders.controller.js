@@ -1,4 +1,8 @@
-import { createOrder, getOrdersById } from "../services/orders.service.js";
+import {
+  createOrder,
+  getOrdersById,
+  getAllOrders,
+} from "../services/orders.service.js";
 import { v4 as uuidv4 } from "uuid";
 import { getProductByIdFromCart } from "../services/cart.service.js";
 
@@ -42,6 +46,16 @@ export async function getOrdersByIdC(req, res) {
     const orders = await getOrdersById(userId);
     res.send(orders.data);
     console.log(orders);
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).send({ msg: "Error fetching orders" });
+  }
+}
+
+export async function getAllOrdersC(req, res) {
+  try {
+    const orders = await getAllOrders();
+    res.send(orders.data);
   } catch (error) {
     console.error("Error fetching orders:", error);
     res.status(500).send({ msg: "Error fetching orders" });

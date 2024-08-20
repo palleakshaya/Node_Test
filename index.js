@@ -7,7 +7,7 @@ import userRouter from "./routes/users.route.js";
 // const express = require("express");
 const app = express();
 app.use(express.json());
-const PORT = process.env.PORT || 4500;
+const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.get("/", function (request, response) {
   response.send("🙋‍♂️, 🌏 🎊✨🤩");

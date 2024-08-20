@@ -11,7 +11,7 @@ export async function getAllProductsC(request, response) {
   try {
     const allProducts = await getAllProducts();
     console.log(allProducts);
-    response.send(allProducts);
+    response.send(allProducts.data);
   } catch (error) {
     console.log(error);
     response.status(500).send("Failed to get Products");

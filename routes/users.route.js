@@ -1,6 +1,10 @@
 import express from "express";
 // import cors from "cors";
-import { addingUsersC, getAllUsersC } from "../controllers/users.controller.js";
+import {
+  addingUsersC,
+  getAllUsersC,
+  loginUsersC,
+} from "../controllers/users.controller.js";
 import { auth } from "../middlewares/auth.middleware.js";
 // import { getMovieByIdC } from "./getMovieByIdC.js";
 
@@ -11,7 +15,7 @@ router.get("/", getAllUsersC);
 // router.put("/:id", updateMovieByIdC);
 router.post("/signup", addingUsersC);
 
-// router.post("/login", auth, loginUsersC);
+router.post("/login", loginUsersC);
 
 // router.delete("/:id", deleteMovieByIdC);
 
