@@ -7,11 +7,13 @@ import {
   deleteProductByIdC,
   updateProductByIdC,
   getProductByIdC,
+  searchProductsC,
 } from "../controllers/products.controller.js";
 
 const router = express.Router();
 
 router.get("/", getAllProductsC);
+router.get("/search", searchProductsC);
 router.get("/:id", getProductByIdC);
 router.put("/:id", updateProductByIdC);
 router.post("/", addingProductC);

@@ -88,3 +88,12 @@ export async function getProductByIdC(request, response) {
     response.status(500).send("Failed to get Products");
   }
 }
+export async function searchProductsC(req, res) {
+  try {
+    const searchTerm = req.query.q;
+    const products = await searchProducts(searchTerm);
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}

@@ -8,6 +8,9 @@ import { getProductByIdFromCart } from "../services/cart.service.js";
 
 export async function placeOrdersC(req, res) {
   const data = req.body;
+  // if (!data.products || !data.totalPrice) {
+  //   return res.status(400).send({ msg: "Invalid order data" });
+  // }
   // const userId = data.userId;
   // try {
   //   const cartData = await getProductByIdFromCart(userId);
