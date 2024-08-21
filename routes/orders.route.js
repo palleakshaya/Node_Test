@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/:id", getOrdersByIdC);
 router.get("/", getAllOrdersC);
-router.post("/", auth, placeOrdersC);
+router.post("/", placeOrdersC);
 
 // router.get("/:id", getProductByIdFromCartC);
 
