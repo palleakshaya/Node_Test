@@ -4,19 +4,54 @@ import {
   addingProduct,
   deleteProductById,
   updateProductById,
+  // searchProducts,
 } from "../services/products.service.js";
+import { products } from "../entities/products.entity.js";
 import { v4 as uuidv4 } from "uuid";
 
 export async function getAllProductsC(request, response) {
-  try {
+  const { search } = request.query;
+
+  if (!search) {
     const allProducts = await getAllProducts();
-    console.log(allProducts);
     response.send(allProducts.data);
-  } catch (error) {
-    console.log(error);
-    response.status(500).send("Failed to get Products");
+    return;
   }
+  // const lowerCaseSearchTerm = searchTerm.toLowerCase();
+  // const lowerCaseSearchTerm = searchTerm.toLowerCase(); // Convert to lowercase
+  const filteredData = await products.scan
+    .where(
+      ({ title, author }, { contains }) => `
+        ${contains(title, search)} OR ${contains(author, search)} 
+          
+       `
+    )
+    .go();
+
+  console.log("Filtered Data:", filteredData); // Debug statement
+  response.send(filteredData.data);
 }
+
+//   const allProducts = await getAllProducts();
+//   // console.log(allProducts);
+//   response.send(allProducts.data);
+// } catch (error) {
+//   console.log(error);
+//   response.status(500).send("Failed to get Products");
+// }
+//   {
+//     FilterExpression: `
+//   contains(#title, :searchTerm) OR contains(#author, :searchTerm)
+// `,
+//     ExpressionAttributeNames: {
+//       "#title": "title",
+//       "#author": "author",
+//     },
+//     ExpressionAttributeValues: {
+//       ":searchTerm": lowerCaseSearchTerm,
+//     },
+//   }
+
 export async function addingProductC(request, response) {
   const data = request.body;
   console.log(data);
@@ -88,12 +123,42 @@ export async function getProductByIdC(request, response) {
     response.status(500).send("Failed to get Products");
   }
 }
-export async function searchProductsC(req, res) {
-  try {
-    const searchTerm = req.query.q;
-    const products = await searchProducts(searchTerm);
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
+// export async function searchProductsC(req, res) {
+//   try {
+//     const searchTerm = req.query.q;
+//     const products = await searchProducts(searchTerm);
+//     res.json(products);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// export async function searchProductsC(req, res) {
+//   try {
+//     const { search: searchTerm } = req.query;
+//     console.log("Search Term:", searchTerm);
+
+//     // Call the searchProducts service function, passing the searchTerm
+//     const products = await searchProducts(searchTerm);
+
+//     res.json(products.data);
+//   } catch (error) {
+//     console.error("Error in searchProductsC:", error);
+//     res.status(500).json({ error: error.message });
+//   }
+// }
+
+// export async function searchProductsC(req, res) {
+//   try {
+//     const { q: searchTerm } = req.query;
+//     console.log("Search TermB:", searchTerm); // Debug statement
+
+//     if (!searchTerm) {
+//       const allProducts = await getAllProducts();
+//       res.send(allProducts.data);
+//       return;
+//     }
+
+//     const filteredProducts = await searchProducts(searchTerm);
+//     res.send(filteredProducts.data);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
