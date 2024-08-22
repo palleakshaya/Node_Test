@@ -1,5 +1,5 @@
 import { Entity } from "electrodb"; // ORM - object relational mapping
-import { client } from "../util/db_connection.js";
+import { client } from "../util/db.connection.js";
 
 const Session = new Entity(
   {

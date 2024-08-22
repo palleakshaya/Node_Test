@@ -13,7 +13,7 @@ async function getAllProductsFromCart() {
 }
 
 async function addingProductInCart(addProduct) {
-  return await cart.create(addProduct).go();
+  return await cart.put(addProduct).go();
 }
 
 async function deleteProductFromCart(userId) {

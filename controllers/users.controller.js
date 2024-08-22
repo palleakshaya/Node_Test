@@ -3,6 +3,7 @@ import {
   addingUsers,
   getUsersByUsername,
   getAllUsers,
+  createSession,
 } from "../services/users.service.js";
 import jwt from "jsonwebtoken";
 
@@ -25,12 +26,14 @@ export async function getAllUsersC(request, response) {
     response.send(allUsers);
   } catch (error) {
     console.log(error);
-    response.status(500).send("Failed to get Movies");
+    response.status(500).send("Failed to get Users");
   }
 }
 
 export async function addingUsersC(request, response) {
   const data = request.body;
+  const password = data.password;
+  const roleId = 0;
 
   if (data.password.length < 8) {
     response.status(400).send({ msg: "Password is too short" });
@@ -46,7 +49,11 @@ export async function addingUsersC(request, response) {
   const hashedPassword1 = await genHashPassword(data.password);
 
   try {
-    await addingUsers({ username: data.username, password: hashedPassword1 });
+    await addingUsers({
+      username: data.username,
+      password: hashedPassword1,
+      roleId: roleId,
+    });
     console.log(data.username, hashedPassword1);
     response.status(200).send({ msg: "User signed up sucessfully" });
   } catch (error) {
@@ -57,6 +64,7 @@ export async function addingUsersC(request, response) {
 
 export async function loginUsersC(request, response) {
   const data = request.body;
+  const username = data.username;
   console.log(data);
   const userFromDB = await getUsersByUsername(data.username);
   if (!userFromDB.data) {
@@ -74,13 +82,20 @@ export async function loginUsersC(request, response) {
     console.log(isPasswordCheck);
 
     if (isPasswordCheck) {
-      const token = jwt.sign(
+      var token = jwt.sign(
         { id: userFromDB.data.username },
         process.env.SECRET_KEY
       );
-      response.send({ msg: "Login Successful", token });
+      const sessionData = { username, token };
+      const roleId = userFromDB.data.roleId;
+      await createSession(sessionData);
+      response
+        .status(200)
+        .send({ msg: "Login Successful", token, roleId, username });
+      return;
     } else {
-      response.send({ msg: "Invalid Credentials" });
+      response.status(400).send({ msg: "Invalid Credentials" });
+      return;
     }
   }
 }

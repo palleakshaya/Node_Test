@@ -18,9 +18,11 @@ import { v4 as uuidv4 } from "uuid";
 //   }
 // }
 export async function getAllProductsFromCartC(request, response) {
+  const userId = request.params.id;
+  const cart = await getProductByIdFromCart(userId);
   try {
     // const userId = request.params.id; // Extract userId from request parameters
-    const cart = await getAllProductsFromCart();
+    // const cart = await getAllProductsFromCart();
     //const cart = await getAllProductsFromCartC();
     if (cart.data) {
       response.send(cart.data);
@@ -37,35 +39,35 @@ export async function addingProductInCartC(request, response) {
   // const id = request.params.userId;
   const data = request.body;
   console.log(data);
-  if (
-    !data.userId ||
-    !data.products ||
-    !data.products.length ||
-    // !data.products[0].productId ||
-    // !data.products[0].quantity ||
-    !data.products[0].bookId || // Check for bookId in the first product
-    !data.products[0].qty || // Check for quantity in the first product
-    !data.price
-  ) {
-    return response.status(400).send({ msg: "Missing required fields" });
-  }
-  const userId = data.userId;
-  const totalPrice = data.products[0].qty * data.price;
-  const addProduct = {
-    userId,
-    products: [
-      {
-        bookId: data.products[0].bookId,
-        qty: data.products[0].qty,
-      },
-    ],
-    totalPrice,
-  };
+  // if (
+  //   !data.userId ||
+  //   !data.products ||
+  //   !data.products.length ||
+  //   // !data.products[0].productId ||
+  //   // !data.products[0].quantity ||
+  //   !data.products[0].bookId || // Check for bookId in the first product
+  //   !data.products[0].qty || // Check for quantity in the first product
+  //   !data.price
+  // ) {
+  //   return response.status(400).send({ msg: "Missing required fields" });
+  // }
+  // const userId = data.userId;
+  // const totalPrice = data.products[0].qty * data.price;
+  // const addProduct = {
+  //   userId,
+  //   products: [
+  //     {
+  //       bookId: data.products[0].bookId,
+  //       qty: data.products[0].qty,
+  //     },
+  //   ],
+  //   totalPrice,
+  // };
   try {
     const newCart = await addingProductInCart(addProduct);
     // console.log(addProduct);
     // movies.push({ id: v4(), ...data });
-    response.send(newCart.data);
+    response.status(201).send(newCart.data);
   } catch (error) {
     console.log(error);
     response.status(500).send("Failed to add the product in the cart");

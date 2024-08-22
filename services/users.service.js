@@ -1,3 +1,4 @@
+import { Session } from "../entities/session.entity.js";
 import { Users } from "../entities/users.entity.js";
 
 async function addingUsers(addingUser) {
@@ -11,5 +12,7 @@ async function getUsersByUsername(username) {
 async function getAllUsers() {
   return await Users.scan.go();
 }
-
-export { addingUsers, getUsersByUsername, getAllUsers };
+async function createSession(sessionData) {
+  return await Session.create(sessionData).go();
+}
+export { addingUsers, getUsersByUsername, getAllUsers, createSession };

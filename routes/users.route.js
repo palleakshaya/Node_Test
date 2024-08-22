@@ -13,9 +13,9 @@ const router = express.Router();
 router.get("/", getAllUsersC);
 // router.get("/", getUsersByUsernameC); //signup
 // router.put("/:id", updateMovieByIdC);
-router.post("/signup", addingUsersC);
+router.post("/signup", express.json(), addingUsersC);
 
-router.post("/login", loginUsersC);
+router.post("/login", express.json(), loginUsersC);
 
 // router.delete("/:id", deleteMovieByIdC);
 
