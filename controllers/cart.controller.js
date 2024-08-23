@@ -38,6 +38,7 @@ export async function getAllProductsFromCartC(request, response) {
 export async function addingProductInCartC(request, response) {
   // const id = request.params.userId;
   const data = request.body;
+  const userId = data.userId;
   console.log(data);
   // if (
   //   !data.userId ||
@@ -63,8 +64,11 @@ export async function addingProductInCartC(request, response) {
   //   ],
   //   totalPrice,
   // };
+  if (!userId || !data.products || !data.products.length) {
+    return response.status(400).send({ msg: "Missing required fields" });
+  }
   try {
-    const newCart = await addingProductInCart(addProduct);
+    const newCart = await addingProductInCart({ userId, ...data });
     // console.log(addProduct);
     // movies.push({ id: v4(), ...data });
     response.status(201).send(newCart.data);
