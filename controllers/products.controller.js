@@ -21,8 +21,11 @@ export async function getAllProductsC(request, response) {
   // const lowerCaseSearchTerm = searchTerm.toLowerCase(); // Convert to lowercase
   const filteredData = await products.scan
     .where(
-      ({ title, author }, { contains }) => `
-        ${contains(title, search)} OR ${contains(author, search)} 
+      ({ title, author, description, category }, { contains }) => `
+        ${contains(title, search)} OR ${contains(author, search)} OR ${contains(
+        description,
+        search
+      )} OR ${contains(category, search)}
           
        `
     )
