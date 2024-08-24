@@ -38,6 +38,7 @@ export async function getAllProductsFromCartC(request, response) {
 export async function addingProductInCartC(request, response) {
   // const id = request.params.userId;
   const data = request.body;
+  // const token = request.headers["x-auth-token"]
   const userId = data.userId;
   console.log(data);
   // if (
