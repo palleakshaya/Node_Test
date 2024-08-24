@@ -87,15 +87,24 @@ export async function addingProductC(request, response) {
 //     response.status(500).send("Failed to delete product");
 //   }
 // }
-export async function deleteProductByIdC(request, response) {
-  const { id } = request.params;
-  const product = await deleteProductById(id);
-  if (product) {
-    response.send({ msg: "Product deleted 🎉", deletedProduct: product.data });
-  } else {
-    response.status(404).send("No such Product 🥲");
+// products.controller.js
+
+export async function deleteProductByIdC(req, res) {
+  const { id } = req.params;
+
+  try {
+    const result = await deleteProductById(id);
+    if (result) {
+      res.send({ msg: "Product deleted successfully", deletedProduct: result });
+    } else {
+      res.status(404).send("Product not found");
+    }
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.status(500).send("Failed to delete product");
   }
 }
+
 export async function updateProductByIdC(request, response) {
   const { id } = request.params;
   const updateData = request.body;
