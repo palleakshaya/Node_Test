@@ -58,7 +58,7 @@ export async function getAllProductsC(request, response) {
 export async function addingProductC(request, response) {
   const data = request.body;
   console.log(data);
-  const addProduct = { ...data, productId: uuidv4() };
+  const addProduct = { ...data, bookId: uuidv4() };
   console.log(addProduct);
   try {
     await addingProduct(addProduct);
